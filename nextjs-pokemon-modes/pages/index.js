@@ -3,19 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
-  const [pokemon, setPokemon] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(
-        "https://ccaj-pokemon-1.s3.us-west-1.amazonaws.com/index.json"
-      );
-      const data = await res.json();
-      setPokemon(data);
-    }
-    fetchData();
-  }, []);
+export default function Home({ pokemon }) {
   if (!pokemon) return <div>Loading...</div>;
   return (
     <div className={styles.container}>
@@ -41,7 +29,10 @@ export default function Home() {
   );
 }
 
-/*
-              href={`https://ccaj-pokemon-1.s3.us-west-1.amazonaws.com/pokemon/${pokemon.id}.json`}
-
-*/
+export async function getServerSideProps() {
+  const res = await fetch(
+    "https://ccaj-pokemon-1.s3.us-west-1.amazonaws.com/index.json"
+  );
+  const pokemon = await res.json();
+  return { props: { pokemon } };
+}
