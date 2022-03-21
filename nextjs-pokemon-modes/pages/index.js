@@ -29,7 +29,9 @@ export default function Home({ pokemon }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
+  /* for ssg */
+  // export async function getServerSideProps() { /* for ssr */
   const res = await fetch(
     "https://ccaj-pokemon-1.s3.us-west-1.amazonaws.com/index.json"
   );
